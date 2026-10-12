@@ -1,3 +1,6 @@
+import base64
+from pathlib import Path
+
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -51,20 +54,61 @@ h1, h2, h3, .serif {{
 }}
 
 .hero {{
-    background: linear-gradient(120deg, {NAVY} 0%, #2C3A5C 55%, {LV} 100%);
-    border-radius: 18px;
-    padding: 30px 38px;
-    color: {IVORY};
+    position: relative;
+    background: linear-gradient(180deg, #FFFDF8 0%, #F7F0E3 100%);
     border: 1px solid {GOLD};
-    box-shadow: 0 10px 30px rgba(31,42,68,.18);
-    margin-bottom: 18px;
+    border-radius: 18px;
+    box-shadow: inset 0 0 0 7px #FFFDF8, inset 0 0 0 8px rgba(184,151,90,.45), 0 10px 28px rgba(107,66,38,.10);
+    padding: 34px 44px 28px 44px;
+    margin-bottom: 20px;
+    overflow: hidden;
 }}
-.hero h1 {{ color: {IVORY} !important; font-size: 2.5rem; font-weight: 600; margin: 0; letter-spacing: .5px; }}
-.hero .vs {{ color: {GOLD}; font-style: italic; font-weight: 400; }}
-.hero p {{ color: #E9DFCB; margin: 8px 0 0 0; font-size: 1rem; }}
+.hero::before {{
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px;
+    background: linear-gradient(90deg, {LV} 0%, {LV} 45%, {GOLD} 50%, {HE} 55%, {HE} 100%);
+}}
+.hero-brands {{
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 28px;
+}}
+.brand-slot {{ display: flex; flex-direction: column; align-items: center; gap: 18px; min-width: 0; }}
+.brand-slot .logo {{ height: 104px; display: flex; align-items: center; justify-content: center; }}
+.brand-slot img {{ max-height: 100%; max-width: 100%; object-fit: contain; }}
+.brand-slot.lvmh img {{ height: 70px; }}
+.brand-slot.hermes img {{ height: 104px; }}
+.brand-slot .cap {{
+    font-size: .72rem; letter-spacing: 2px; text-transform: uppercase; color: {MUTED};
+    padding-top: 8px; border-top: 2px solid; min-width: 210px; text-align: center;
+}}
+.brand-slot.lvmh .cap {{ border-color: {LV}; }}
+.brand-slot.hermes .cap {{ border-color: {HE}; }}
+.vs-medal {{
+    width: 64px; height: 64px; border-radius: 50%; border: 1px solid {GOLD};
+    box-shadow: inset 0 0 0 4px #FFFDF8, inset 0 0 0 5px rgba(184,151,90,.5);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Source Serif 4', Georgia, serif; font-style: italic; font-size: 1.35rem; color: {GOLD};
+    background: #FFFDF8;
+}}
+.hero-rule {{
+    height: 1px; margin: 26px auto 18px auto; max-width: 760px;
+    background: linear-gradient(90deg, transparent, {GOLD}, transparent);
+}}
+.hero h1 {{
+    text-align: center; color: {INK} !important; font-size: 2.05rem; font-weight: 600;
+    margin: 0; padding: 0; letter-spacing: .3px;
+}}
+.hero p {{ text-align: center; color: {MUTED}; margin: 8px auto 0 auto; font-size: 1rem; max-width: 780px; }}
+.hero .tags {{ text-align: center; margin-top: 16px; }}
 .hero .tag {{
-    display:inline-block; margin-top:14px; padding:4px 12px; border:1px solid {GOLD};
-    border-radius:999px; color:{GOLD}; font-size:.78rem; letter-spacing:1.5px; text-transform:uppercase;
+    display:inline-block; padding:4px 14px; border:1px solid {GOLD}; border-radius:999px;
+    color:{LV}; font-size:.72rem; letter-spacing:1.6px; text-transform:uppercase; background:#FFFDF8;
+}}
+@media (max-width: 760px) {{
+    .hero {{ padding: 26px 18px 22px 18px; }}
+    .hero-brands {{ grid-template-columns: 1fr; gap: 16px; }}
+    .brand-slot.lvmh img {{ height: 52px; }}
+    .brand-slot.hermes img {{ height: 84px; }}
+    .vs-medal {{ margin: 0 auto; width: 48px; height: 48px; font-size: 1.1rem; }}
+    .hero h1 {{ font-size: 1.6rem; }}
 }}
 
 .card {{
@@ -105,7 +149,7 @@ div[data-testid="stTabs"] button[aria-selected="true"] {{ border-bottom-color: {
 div[role="radiogroup"] label p {{ font-weight:600; color:{NAVY}; }}
 label[data-testid="stRadioOption"] > div > div:first-child {{ border-color: {GOLD} !important; }}
 label[data-testid="stRadioOption"][data-selected="true"] > div > div:first-child {{
-    background-color: {NAVY} !important; border-color: {NAVY} !important;
+    background-color: {LV} !important; border-color: {LV} !important;
 }}
 div[data-baseweb="tab-highlight"] {{ background-color: {GOLD} !important; }}
 [data-baseweb="tab"][aria-selected="true"] * {{ color: {LV} !important; }}
@@ -271,15 +315,31 @@ COLORS = {"LVMH": LV, "Hermès": HE}
 # ─────────────────────────────────────────────
 # HERO
 # ─────────────────────────────────────────────
+BASE = Path(__file__).parent
+
+def logo(file, alt):
+    """Logo embebido desde el repo; si falta el archivo, muestra el nombre en texto."""
+    p = BASE / file
+    if p.exists():
+        b64 = base64.b64encode(p.read_bytes()).decode()
+        return f'<img src="data:image/png;base64,{b64}" alt="{alt}">'
+    return f'<span class="serif" style="font-size:2.4rem;font-weight:600;color:{INK}">{alt}</span>'
+
 st.markdown(
-    """
-<div class="hero">
-    <h1>LVMH <span class="vs">vs.</span> Hermès</h1>
-    <p>El conglomerado más grande del lujo frente a la maison artesanal más rentable del mundo.
-    Análisis comparativo 2021–2026 del mercado global del lujo.</p>
-    <span class="tag">Datos oficiales · Resultados anuales y semestrales · Cifras en euros</span>
+    f'''<div class="hero">
+<div class="hero-brands">
+<div class="brand-slot lvmh"><div class="logo">{logo("logo_lvmh.png", "LVMH")}</div>
+<div class="cap">Grupo · 75+ maisons · Fundado en 1987</div></div>
+<div class="vs-medal">vs.</div>
+<div class="brand-slot hermes"><div class="logo">{logo("logo_hermes.png", "Hermès")}</div>
+<div class="cap">Maison · 16 métiers · Fundada en 1837</div></div>
 </div>
-""",
+<div class="hero-rule"></div>
+<h1>El mercado global del lujo</h1>
+<p>El conglomerado más grande del sector frente a la maison artesanal más rentable del mundo.
+Análisis comparativo 2021 – 2026.</p>
+<div class="tags"><span class="tag">Datos oficiales · Resultados anuales y semestrales · Cifras en euros</span></div>
+</div>''',
     unsafe_allow_html=True,
 )
 
