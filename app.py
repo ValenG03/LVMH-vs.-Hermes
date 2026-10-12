@@ -24,13 +24,16 @@ IVORY = "#FBF8F1"
 INK = "#2B2118"
 MUTED = "#7A6A58"
 
+SERIF = "'Source Serif 4', Georgia, serif"   # clásica, formal, cifras legibles
+SANS = "Inter, sans-serif"
+
 # ─────────────────────────────────────────────
 # ESTILO
 # ─────────────────────────────────────────────
 st.markdown(
     f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap');
 
 html, body, [class*="css"], .stApp {{
     font-family: 'Inter', sans-serif;
@@ -42,7 +45,10 @@ html, body, [class*="css"], .stApp {{
 .block-container {{ padding-top: 1.6rem; padding-bottom: 2rem; max-width: 1400px; }}
 header[data-testid="stHeader"] {{ background: transparent; }}
 
-h1, h2, h3, .serif {{ font-family: 'Cormorant Garamond', serif !important; color: {NAVY}; }}
+h1, h2, h3, .serif {{
+    font-family: 'Source Serif 4', Georgia, serif !important; color: {NAVY};
+    font-variant-numeric: lining-nums;
+}}
 
 .hero {{
     background: linear-gradient(120deg, {NAVY} 0%, #2C3A5C 55%, {LV} 100%);
@@ -53,9 +59,9 @@ h1, h2, h3, .serif {{ font-family: 'Cormorant Garamond', serif !important; color
     box-shadow: 0 10px 30px rgba(31,42,68,.18);
     margin-bottom: 18px;
 }}
-.hero h1 {{ color: {IVORY} !important; font-size: 2.7rem; margin: 0; letter-spacing: .5px; }}
-.hero .vs {{ color: {GOLD}; font-style: italic; }}
-.hero p {{ color: #E9DFCB; margin: 6px 0 0 0; font-size: 1rem; }}
+.hero h1 {{ color: {IVORY} !important; font-size: 2.5rem; font-weight: 600; margin: 0; letter-spacing: .5px; }}
+.hero .vs {{ color: {GOLD}; font-style: italic; font-weight: 400; }}
+.hero p {{ color: #E9DFCB; margin: 8px 0 0 0; font-size: 1rem; }}
 .hero .tag {{
     display:inline-block; margin-top:14px; padding:4px 12px; border:1px solid {GOLD};
     border-radius:999px; color:{GOLD}; font-size:.78rem; letter-spacing:1.5px; text-transform:uppercase;
@@ -66,22 +72,26 @@ h1, h2, h3, .serif {{ font-family: 'Cormorant Garamond', serif !important; color
     border: 1px solid #E4D6BD;
     border-top: 3px solid {GOLD};
     border-radius: 14px;
-    padding: 16px 18px;
+    padding: 16px 18px 14px 18px;
     box-shadow: 0 4px 14px rgba(107,66,38,.08);
-    height: 100%;
+    min-height: 178px;
 }}
 .card .label {{
-    font-size: .74rem; letter-spacing: 1.4px; text-transform: uppercase; color: {MUTED}; margin-bottom: 10px;
+    font-size: .76rem; letter-spacing: 1.4px; text-transform: uppercase; color: {NAVY};
+    font-weight: 600; margin-bottom: 12px;
 }}
-.card .row {{ display:flex; justify-content:space-between; align-items:baseline; margin: 4px 0; }}
-.card .brand {{ font-size:.82rem; font-weight:600; }}
-.card .val {{ font-family:'Cormorant Garamond', serif; font-size:1.65rem; font-weight:700; }}
-.card .delta {{ font-size:.75rem; color:{MUTED}; }}
+.card .row {{ display:flex; justify-content:space-between; align-items:center; margin: 2px 0; }}
+.card .brand {{ font-size:.8rem; font-weight:600; letter-spacing:.5px; }}
+.card .val {{
+    font-family: 'Source Serif 4', Georgia, serif; font-size: 1.5rem; font-weight: 600;
+    font-variant-numeric: lining-nums tabular-nums; letter-spacing: 0;
+}}
+.card .delta {{ font-size:.74rem; color:{MUTED}; text-align:right; margin-bottom: 8px; }}
 .lv {{ color: {LV}; }}
 .he {{ color: {HE}; }}
 
 .section {{
-    font-family:'Cormorant Garamond', serif; font-size:1.7rem; color:{NAVY};
+    font-family: 'Source Serif 4', Georgia, serif; font-size:1.6rem; font-weight:600; color:{NAVY};
     border-bottom: 1px solid {GOLD}; padding-bottom: 4px; margin: 26px 0 10px 0;
 }}
 .insight {{
@@ -93,6 +103,22 @@ h1, h2, h3, .serif {{ font-family: 'Cormorant Garamond', serif !important; color
 div[data-testid="stTabs"] button p {{ font-family:'Inter', sans-serif; font-weight:600; color:{NAVY}; }}
 div[data-testid="stTabs"] button[aria-selected="true"] {{ border-bottom-color: {GOLD} !important; }}
 div[role="radiogroup"] label p {{ font-weight:600; color:{NAVY}; }}
+label[data-testid="stRadioOption"] > div > div:first-child {{ border-color: {GOLD} !important; }}
+label[data-testid="stRadioOption"][data-selected="true"] > div > div:first-child {{
+    background-color: {NAVY} !important; border-color: {NAVY} !important;
+}}
+div[data-baseweb="tab-highlight"] {{ background-color: {GOLD} !important; }}
+[data-baseweb="tab"][aria-selected="true"] * {{ color: {LV} !important; }}
+[data-testid="stTab"] p {{ font-weight:600; color:{NAVY}; }}
+[data-testid="stTab"][aria-selected="true"] p {{ color: {LV} !important; }}
+[data-testid="stTab"] .react-aria-SelectionIndicator {{ background-color: {GOLD} !important; }}
+
+.mtable {{ width:100%; border-collapse:collapse; background:{IVORY}; border:1px solid #E4D6BD;
+          border-radius:12px; overflow:hidden; font-size:.86rem; }}
+.mtable th {{ background:{NAVY}; color:{IVORY}; text-align:left; padding:9px 12px; font-weight:600; }}
+.mtable th.lv {{ background:{LV}; }} .mtable th.he {{ background:{HE}; }}
+.mtable td {{ padding:9px 12px; border-top:1px solid #EADFCB; vertical-align:top; line-height:1.35; }}
+.mtable td:first-child {{ color:{MUTED}; font-weight:600; white-space:nowrap; }}
 </style>
 """,
     unsafe_allow_html=True,
@@ -118,53 +144,57 @@ annual["Margen operativo %"] = annual["Resultado operativo"] / annual["Ingresos"
 annual["Margen neto %"] = annual["Beneficio neto"] / annual["Ingresos"] * 100
 annual["Crecimiento %"] = annual.groupby("Empresa")["Ingresos"].pct_change() * 100
 
-# KPIs por período
-KPI = {
-    "Año 2025": {
-        "LVMH": dict(ing=80807, rop=17755, neto=10878, org=-1.0, rep=-4.6, fcf=11333,
-                     caja=-6857, empleados="211.000+", div=13.0),
-        "Hermès": dict(ing=16002, rop=6569, neto=4524, org=8.9, rep=5.5, fcf=3880,
-                       caja=12773, empleados="26.494", div=18.0),
-    },
-    "1er semestre 2026": {
-        "LVMH": dict(ing=38644, rop=8691, neto=5697, org=2.0, rep=-2.9, fcf=4100,
-                     caja=-8245, empleados="211.000+", div=None),
-        "Hermès": dict(ing=8163, rop=3351, neto=2238, org=6.1, rep=1.6, fcf=2182,
-                       caja=12926, empleados="27.107", div=None),
-    },
+# Períodos base
+FY25 = {
+    "LVMH": dict(ing=80807, rop=17755, neto=10878, fcf=11333, caja=-6857, org=-1.0, prev=84683),
+    "Hermès": dict(ing=16002, rop=6569, neto=4524, fcf=3880, caja=12773, org=8.9, prev=15170),
 }
+H126 = {
+    "LVMH": dict(ing=38644, rop=8691, neto=5697, fcf=4100, caja=-8245, org=2.0, prev=39810),
+    "Hermès": dict(ing=8163, rop=3351, neto=2238, fcf=2182, caja=12926, org=6.1, prev=8034),
+}
+# Acumulado 18 meses: año 2025 + 1er semestre 2026 (posición de caja/deuda al 30/06/2026)
+ACUM = {
+    emp: dict(
+        ing=FY25[emp]["ing"] + H126[emp]["ing"],
+        rop=FY25[emp]["rop"] + H126[emp]["rop"],
+        neto=FY25[emp]["neto"] + H126[emp]["neto"],
+        fcf=FY25[emp]["fcf"] + H126[emp]["fcf"],
+        caja=H126[emp]["caja"],
+        org=None,
+        prev=FY25[emp]["prev"] + H126[emp]["prev"],   # 2024 + 1S 2025
+    )
+    for emp in ["LVMH", "Hermès"]
+}
+KPI = {"Año 2025": FY25, "1er semestre 2026": H126, "Acumulado 2025 + 1S 2026": ACUM}
+COMP = {"Año 2025": "vs. 2024", "1er semestre 2026": "vs. 1S 2025",
+        "Acumulado 2025 + 1S 2026": "vs. 2024 + 1S 2025"}
 
 # Ingresos trimestrales (M€)
 quarters = ["T1 25", "T2 25", "T3 25", "T4 25", "T1 26", "T2 26"]
 q_lvmh = [20311, 19499, 18280, 22717, 19121, 19524]
 q_herm = [4129, 3905, 3881, 4087, 4070, 4094]
 
-# Mix de negocio 2025 (M€)
-mix_lvmh = pd.DataFrame({
-    "Segmento": ["Moda y Marroquinería", "Distribución selectiva", "Relojes y Joyería",
-                 "Perfumes y Cosméticos", "Vinos y Espirituosos", "Otros"],
-    "Ingresos": [37770, 18348, 10486, 8174, 5358, 671],
-})
-mix_herm = pd.DataFrame({
-    "Segmento": ["Marroquinería y Talabartería", "Prêt-à-porter y Accesorios",
-                 "Otros sectores (Joyería, Hogar)", "Seda y Textiles", "Relojes",
-                 "Perfume y Belleza", "Otros productos"],
-    "Ingresos": [7070, 4525, 2055, 964, 549, 489, 349],
-})
-
-# Mix de negocio H1 2026 (M€)
-mix_lvmh_h1 = pd.DataFrame({
-    "Segmento": mix_lvmh["Segmento"],
-    "Ingresos": [18146, 8406, 5225, 3914, 2598, 356],
-})
-mix_herm_h1 = pd.DataFrame({
-    "Segmento": mix_herm["Segmento"],
-    "Ingresos": [3761, 2198, 1065, 469, 269, 233, 168],
-})
+# Mix de negocio (M€)
+SEG_LV = ["Moda y Marroquinería", "Distribución selectiva", "Relojes y Joyería",
+          "Perfumes y Cosméticos", "Vinos y Espirituosos", "Otros"]
+SEG_HE = ["Marroquinería y Talabartería", "Prêt-à-porter y Accesorios",
+          "Joyería y Hogar", "Seda y Textiles", "Relojes",
+          "Perfume y Belleza", "Otros productos"]
+MIX = {
+    "Año 2025": ([37770, 18348, 10486, 8174, 5358, 671],
+                 [7070, 4525, 2055, 964, 549, 489, 349]),
+    "1er semestre 2026": ([18146, 8406, 5225, 3914, 2598, 356],
+                          [3761, 2198, 1065, 469, 269, 233, 168]),
+}
+MIX["Acumulado 2025 + 1S 2026"] = (
+    [a + b for a, b in zip(MIX["Año 2025"][0], MIX["1er semestre 2026"][0])],
+    [a + b for a, b in zip(MIX["Año 2025"][1], MIX["1er semestre 2026"][1])],
+)
 
 # Geografía 2025 (M€)
 geo = pd.DataFrame({
-    "Región": ["Francia", "Europa (sin Francia)", "Estados Unidos / Américas*",
+    "Región": ["Francia", "Europa (sin Francia)", "EE.UU. / Américas*",
                "Japón", "Asia (sin Japón)", "Otros mercados"],
     "LVMH": [6732, 14530, 20686, 6378, 21389, 11091],
     "Hermès": [1575, 2362, 3075, 1591, 6702, 697],
@@ -172,7 +202,7 @@ geo = pd.DataFrame({
 geo["LVMH %"] = geo["LVMH"] / geo["LVMH"].sum() * 100
 geo["Hermès %"] = geo["Hermès"] / geo["Hermès"].sum() * 100
 
-# Rentabilidad por segmento LVMH 2025 (margen operativo %)
+# Rentabilidad por división LVMH 2025 (margen operativo %)
 seg_margin = pd.DataFrame({
     "Segmento": ["Moda y Marroquinería", "Vinos y Espirituosos", "Relojes y Joyería",
                  "Distribución selectiva", "Perfumes y Cosméticos"],
@@ -187,6 +217,9 @@ def fmt_b(x):
     return f"€{x/1000:,.1f} B".replace(",", "X").replace(".", ",").replace("X", ".")
 
 def fmt_pct(x, sign=False):
+    x = round(x, 1) + 0.0
+    if x == 0:
+        x = 0.0
     s = f"{x:+.1f}%" if sign else f"{x:.1f}%"
     return s.replace(".", ",")
 
@@ -195,24 +228,42 @@ def card(label, lv_val, he_val, lv_sub="", he_sub=""):
     <div class="card">
         <div class="label">{label}</div>
         <div class="row"><span class="brand lv">LVMH</span><span class="val lv">{lv_val}</span></div>
-        <div class="delta" style="text-align:right">{lv_sub}</div>
+        <div class="delta">{lv_sub}</div>
         <div class="row"><span class="brand he">HERMÈS</span><span class="val he">{he_val}</span></div>
-        <div class="delta" style="text-align:right">{he_sub}</div>
+        <div class="delta">{he_sub}</div>
     </div>"""
 
-def base_layout(fig, height=380, title=None):
+def base_layout(fig, height=400, title=None, legend="bottom", xtitle=False, top=None):
+    """Título arriba a la izquierda; leyenda debajo del gráfico (o a la derecha) sin pisar datos."""
+    top = top or (64 if title else 24)
+    if legend == "bottom":
+        leg = dict(orientation="h", xanchor="center", x=0.5, yanchor="top",
+                   y=-0.26 if xtitle else -0.12, font=dict(size=12))
+        bottom = 110 if xtitle else 70
+    elif legend == "right":
+        leg = dict(orientation="v", xanchor="left", x=1.02, yanchor="middle", y=0.5,
+                   font=dict(size=12), itemsizing="constant")
+        bottom = 20
+    else:
+        leg = None
+        bottom = 60 if xtitle else 30
     fig.update_layout(
         height=height,
-        title=dict(text=title, font=dict(family="Cormorant Garamond", size=20, color=NAVY)) if title else None,
+        title=dict(text=title, x=0, xanchor="left", y=0.98, yanchor="top",
+                   font=dict(family=SERIF, size=19, color=NAVY)) if title else None,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="Inter", color=INK, size=12),
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-        margin=dict(l=10, r=10, t=60 if title else 30, b=10),
-        hoverlabel=dict(bgcolor=IVORY, font_family="Inter"),
+        font=dict(family=SANS, color=INK, size=12),
+        showlegend=legend is not None,
+        legend=leg,
+        margin=dict(l=10, r=10, t=top, b=bottom),
+        hoverlabel=dict(bgcolor=IVORY, font_family=SANS),
+        uniformtext=dict(minsize=10, mode="hide"),
     )
     fig.update_xaxes(showgrid=False, linecolor="#D8C8AC")
     fig.update_yaxes(gridcolor="#E7DCC8", zeroline=False)
+    fig.update_traces(cliponaxis=False, selector=dict(type="bar"))
+    fig.update_traces(cliponaxis=False, selector=dict(type="scatter"))
     return fig
 
 COLORS = {"LVMH": LV, "Hermès": HE}
@@ -234,37 +285,47 @@ st.markdown(
 
 periodo = st.radio("Período", list(KPI.keys()), horizontal=True, label_visibility="collapsed")
 L, H = KPI[periodo]["LVMH"], KPI[periodo]["Hermès"]
-comp = "vs. 2024" if periodo == "Año 2025" else "vs. 1S 2025"
+comp = COMP[periodo]
+acum = periodo.startswith("Acumulado")
 
 # ─────────────────────────────────────────────
 # TARJETAS KPI
 # ─────────────────────────────────────────────
+def growth(d):
+    return (d["ing"] / d["prev"] - 1) * 100
+
 c1, c2, c3, c4, c5 = st.columns(5)
 with c1:
-    st.markdown(card("Ingresos", fmt_b(L["ing"]), fmt_b(H["ing"]),
-                     f"{fmt_pct(L['rep'], True)} publicado {comp}",
-                     f"{fmt_pct(H['rep'], True)} publicado {comp}"), unsafe_allow_html=True)
+    sub_lv = "18 meses · ene-25 a jun-26" if acum else f"{fmt_pct(growth(L), True)} publicado {comp}"
+    sub_he = "18 meses · ene-25 a jun-26" if acum else f"{fmt_pct(growth(H), True)} publicado {comp}"
+    st.markdown(card("Ingresos", fmt_b(L["ing"]), fmt_b(H["ing"]), sub_lv, sub_he), unsafe_allow_html=True)
 with c2:
-    st.markdown(card("Crecimiento orgánico", fmt_pct(L["org"], True), fmt_pct(H["org"], True),
-                     "tipo de cambio constante", "tipo de cambio constante"), unsafe_allow_html=True)
+    st.markdown(card("Margen operativo",
+                     fmt_pct(L["rop"] / L["ing"] * 100), fmt_pct(H["rop"] / H["ing"] * 100),
+                     f"resultado operativo {fmt_b(L['rop'])}",
+                     f"resultado operativo {fmt_b(H['rop'])}"), unsafe_allow_html=True)
 with c3:
-    st.markdown(card("Resultado operativo recurrente", fmt_b(L["rop"]), fmt_b(H["rop"]),
-                     f"margen {fmt_pct(L['rop']/L['ing']*100)}",
-                     f"margen {fmt_pct(H['rop']/H['ing']*100)}"), unsafe_allow_html=True)
-with c4:
-    st.markdown(card("Beneficio neto (grupo)", fmt_b(L["neto"]), fmt_b(H["neto"]),
+    st.markdown(card("Beneficio neto", fmt_b(L["neto"]), fmt_b(H["neto"]),
                      f"margen neto {fmt_pct(L['neto']/L['ing']*100)}",
                      f"margen neto {fmt_pct(H['neto']/H['ing']*100)}"), unsafe_allow_html=True)
+with c4:
+    st.markdown(card("Free Cash Flow", fmt_b(L["fcf"]), fmt_b(H["fcf"]),
+                     f"deuda neta {fmt_b(abs(L['caja']))}",
+                     f"caja neta {fmt_b(H['caja'])}"), unsafe_allow_html=True)
 with c5:
-    lv_caja = f"Deuda neta {fmt_b(abs(L['caja']))}"
-    he_caja = f"Caja neta {fmt_b(H['caja'])}"
-    st.markdown(card("Free cash flow", fmt_b(L["fcf"]), fmt_b(H["fcf"]), lv_caja, he_caja),
-                unsafe_allow_html=True)
+    if acum:
+        st.markdown(card("Crecimiento publicado",
+                         fmt_pct(growth(L), True), fmt_pct(growth(H), True),
+                         f"publicado {comp}", f"publicado {comp}"), unsafe_allow_html=True)
+    else:
+        st.markdown(card("Crecimiento orgánico", fmt_pct(L["org"], True), fmt_pct(H["org"], True),
+                         f"tipo de cambio constante {comp}", f"tipo de cambio constante {comp}"),
+                    unsafe_allow_html=True)
 
-ratio_ing = L["ing"] / H["ing"]
+ratio_ing = f"{L['ing'] / H['ing']:.1f}".replace(".", ",")
 ratio_neto = H["neto"] / L["neto"] * 100
 st.markdown(
-    f"""<div class="insight">LVMH factura <b>{f"{ratio_ing:.1f}".replace(".", ",")} veces</b> más que Hermès,
+    f"""<div class="insight">LVMH factura <b>{ratio_ing} veces</b> más que Hermès,
     pero Hermès genera un beneficio neto equivalente al <b>{ratio_neto:.0f}%</b> del de LVMH:
     por cada €100 vendidos, Hermès retiene <b>€{H['neto']/H['ing']*100:.0f}</b> y LVMH <b>€{L['neto']/L['ing']*100:.0f}</b>.</div>""",
     unsafe_allow_html=True,
@@ -286,22 +347,26 @@ with t1:
         for emp in ["LVMH", "Hermès"]:
             d = annual[annual["Empresa"] == emp]
             fig.add_bar(x=d["Año"], y=d["Ingresos"] / 1000, name=emp, marker_color=COLORS[emp],
-                        text=[f"{v/1000:.1f}" for v in d["Ingresos"]], textposition="outside",
+                        text=[f"{v/1000:.1f}".replace(".", ",") for v in d["Ingresos"]],
+                        textposition="outside", textfont=dict(family=SERIF, size=12),
                         hovertemplate="%{x}: €%{y:.1f} B<extra>" + emp + "</extra>")
         fig.update_layout(barmode="group", yaxis_title="Miles de millones €")
-        st.plotly_chart(base_layout(fig, 400, "Ingresos anuales 2021–2025"), width="stretch")
+        fig.update_yaxes(range=[0, 100])
+        st.plotly_chart(base_layout(fig, 420, "Ingresos anuales 2021–2025"), width="stretch")
     with b:
         fig = go.Figure()
-        for emp in ["LVMH", "Hermès"]:
+        for emp, pos in [("LVMH", "bottom center"), ("Hermès", "top center")]:
             d = annual[(annual["Empresa"] == emp) & (annual["Año"] > 2021)]
             fig.add_scatter(x=d["Año"], y=d["Crecimiento %"], name=emp, mode="lines+markers+text",
                             line=dict(color=COLORS[emp], width=3), marker=dict(size=9),
-                            text=[f"{v:+.1f}%" for v in d["Crecimiento %"]], textposition="top center",
+                            text=[fmt_pct(v, True) for v in d["Crecimiento %"]], textposition=pos,
+                            textfont=dict(color=COLORS[emp], size=11),
                             hovertemplate="%{x}: %{y:.1f}%<extra>" + emp + "</extra>")
         fig.add_hline(y=0, line_color=GOLD, line_dash="dot")
         fig.update_layout(yaxis_title="% interanual (publicado)")
-        fig.update_xaxes(dtick=1)
-        st.plotly_chart(base_layout(fig, 400, "Crecimiento de ingresos"), width="stretch")
+        fig.update_xaxes(dtick=1, range=[2021.6, 2025.4])
+        fig.update_yaxes(range=[-12, 38])
+        st.plotly_chart(base_layout(fig, 420, "Crecimiento de ingresos"), width="stretch")
     st.markdown(
         """<div class="insight">Desde 2021, Hermès casi <b>duplicó</b> sus ventas (+78%), mientras que LVMH
         alcanzó su pico en 2023 (€86,2 B) y retrocedió dos años seguidos. En 2025 Hermès creció +8,9% orgánico
@@ -316,42 +381,55 @@ with t2:
         fig = go.Figure()
         for emp in ["LVMH", "Hermès"]:
             d = annual[annual["Empresa"] == emp]
-            fig.add_scatter(x=d["Año"], y=d["Margen operativo %"], name=f"{emp} · operativo",
+            fig.add_scatter(x=d["Año"], y=d["Margen operativo %"], name=f"{emp} · margen operativo",
                             mode="lines+markers", line=dict(color=COLORS[emp], width=3), marker=dict(size=9),
-                            hovertemplate="%{x}: %{y:.1f}%<extra></extra>")
-            fig.add_scatter(x=d["Año"], y=d["Margen neto %"], name=f"{emp} · neto",
+                            hovertemplate="%{x}: %{y:.1f}%<extra>" + emp + " · operativo</extra>")
+            fig.add_scatter(x=d["Año"], y=d["Margen neto %"], name=f"{emp} · margen neto",
                             mode="lines+markers", line=dict(color=COLORS[emp], width=2, dash="dot"),
-                            marker=dict(size=6), hovertemplate="%{x}: %{y:.1f}%<extra></extra>")
-        fig.update_layout(yaxis_title="% sobre ingresos")
+                            marker=dict(size=6),
+                            hovertemplate="%{x}: %{y:.1f}%<extra>" + emp + " · neto</extra>")
+        fig.update_layout(yaxis_title="% sobre ingresos", legend_traceorder="normal")
         fig.update_xaxes(dtick=1)
-        st.plotly_chart(base_layout(fig, 400, "Margen operativo y neto"), width="stretch")
+        fig.update_yaxes(range=[0, 50])
+        st.plotly_chart(base_layout(fig, 440, "Margen operativo y margen neto"), width="stretch")
     with b:
         fig = go.Figure()
         for emp in ["LVMH", "Hermès"]:
             d = annual[annual["Empresa"] == emp]
             fig.add_bar(x=d["Año"], y=d["Beneficio neto"] / 1000, name=emp, marker_color=COLORS[emp],
-                        text=[f"{v/1000:.1f}" for v in d["Beneficio neto"]], textposition="outside",
+                        text=[f"{v/1000:.1f}".replace(".", ",") for v in d["Beneficio neto"]],
+                        textposition="outside", textfont=dict(family=SERIF, size=12),
                         hovertemplate="%{x}: €%{y:.2f} B<extra>" + emp + "</extra>")
         fig.update_layout(barmode="group", yaxis_title="Miles de millones €")
-        st.plotly_chart(base_layout(fig, 400, "Beneficio neto (parte del grupo)"), width="stretch")
+        fig.update_yaxes(range=[0, 18])
+        st.plotly_chart(base_layout(fig, 440, "Beneficio neto (parte del grupo)"), width="stretch")
 
     a, b = st.columns([2, 3])
     with a:
-        gm = pd.DataFrame({"Empresa": ["LVMH", "Hermès"], "Margen bruto": [53528 / 80807 * 100, 11379 / 16002 * 100]})
+        gm = pd.DataFrame({"Empresa": ["LVMH", "Hermès"],
+                           "Margen bruto": [53528 / 80807 * 100, 11379 / 16002 * 100]})
         fig = go.Figure(go.Bar(x=gm["Margen bruto"], y=gm["Empresa"], orientation="h",
                                marker_color=[LV, HE], text=[fmt_pct(v) for v in gm["Margen bruto"]],
-                               textposition="inside", insidetextfont=dict(color=IVORY, size=14)))
+                               textposition="inside", insidetextanchor="end",
+                               textfont=dict(color=IVORY, size=14, family=SERIF),
+                               hovertemplate="%{y}: %{x:.1f}%<extra></extra>"))
         fig.update_xaxes(range=[0, 100], title="% sobre ingresos")
-        st.plotly_chart(base_layout(fig, 260, "Margen bruto 2025"), width="stretch")
+        fig.update_yaxes(autorange="reversed")
+        st.plotly_chart(base_layout(fig, 320, "Margen bruto 2025", legend=None, xtitle=True), width="stretch")
     with b:
         sm = seg_margin.sort_values("Margen")
         fig = go.Figure(go.Bar(x=sm["Margen"], y=sm["Segmento"], orientation="h",
                                marker_color=[LV_SOFT] * 4 + [LV], text=[fmt_pct(v) for v in sm["Margen"]],
-                               textposition="outside"))
-        fig.add_vline(x=6569 / 16002 * 100, line_color=HE, line_dash="dash",
-                      annotation_text="Hermès total 41,0%", annotation_font_color=HE)
-        fig.update_xaxes(range=[0, 48], title="Margen operativo recurrente 2025 (%)")
-        st.plotly_chart(base_layout(fig, 260, "LVMH por división vs. Hermès"), width="stretch")
+                               textposition="outside", textfont=dict(family=SERIF, size=12),
+                               hovertemplate="%{y}: %{x:.1f}%<extra></extra>"))
+        he_m = 6569 / 16002 * 100
+        fig.add_vline(x=he_m, line_color=HE, line_dash="dash", line_width=2)
+        fig.add_annotation(x=he_m, y=1, yref="paper", yanchor="bottom", xanchor="center",
+                           text=f"<b>Hermès total {fmt_pct(he_m)}</b>", showarrow=False,
+                           font=dict(color=HE, size=12), bgcolor=IVORY)
+        fig.update_xaxes(range=[0, 50], title="Margen operativo recurrente 2025 (%)")
+        st.plotly_chart(base_layout(fig, 320, "Divisiones de LVMH vs. Hermès", legend=None, xtitle=True, top=84),
+                        width="stretch")
     st.markdown(
         """<div class="insight">El margen operativo de Hermès (41%) supera incluso al de Moda y Marroquinería,
         la división estrella de LVMH (35%). LVMH pasó de 26,7% en 2021 a 22,0% en 2025; Hermès se mantiene
@@ -364,18 +442,21 @@ with t3:
     a, b = st.columns(2)
     with a:
         fig = go.Figure(go.Bar(x=quarters, y=[v / 1000 for v in q_lvmh], marker_color=[LV_SOFT] * 4 + [LV] * 2,
-                               text=[f"{v/1000:.1f}" for v in q_lvmh], textposition="outside",
+                               text=[f"{v/1000:.1f}".replace(".", ",") for v in q_lvmh], textposition="outside",
+                               textfont=dict(family=SERIF, size=12),
                                hovertemplate="%{x}: €%{y:.2f} B<extra>LVMH</extra>"))
         fig.update_layout(yaxis_title="Miles de millones €")
         fig.update_yaxes(range=[0, 26])
-        st.plotly_chart(base_layout(fig, 360, "LVMH · ingresos por trimestre"), width="stretch")
+        st.plotly_chart(base_layout(fig, 380, "LVMH · ingresos por trimestre", legend=None), width="stretch")
     with b:
         fig = go.Figure(go.Bar(x=quarters, y=[v / 1000 for v in q_herm], marker_color=[HE_SOFT] * 4 + [HE] * 2,
-                               text=[f"{v/1000:.2f}" for v in q_herm], textposition="outside",
+                               text=[f"{v/1000:.2f}".replace(".", ",") for v in q_herm], textposition="outside",
+                               textfont=dict(family=SERIF, size=12),
                                hovertemplate="%{x}: €%{y:.2f} B<extra>Hermès</extra>"))
         fig.update_layout(yaxis_title="Miles de millones €")
         fig.update_yaxes(range=[0, 4.8])
-        st.plotly_chart(base_layout(fig, 360, "Hermès · ingresos por trimestre"), width="stretch")
+        st.plotly_chart(base_layout(fig, 380, "Hermès · ingresos por trimestre", legend=None), width="stretch")
+    st.caption("Tono claro: 2025 · Tono pleno: 2026")
 
     h1 = pd.DataFrame({
         "Métrica": ["Ingresos", "Resultado operativo", "Beneficio neto"],
@@ -386,11 +467,13 @@ with t3:
     for emp, col in [("LVMH", LV), ("Hermès", HE)]:
         var = (h1[f"{emp} 1S26"] / h1[f"{emp} 1S25"] - 1) * 100
         fig.add_bar(x=h1["Métrica"], y=var, name=emp, marker_color=col,
-                    text=[fmt_pct(v, True) for v in var], textposition="outside")
+                    text=[fmt_pct(v, True) for v in var], textposition="outside",
+                    textfont=dict(family=SERIF, size=12),
+                    hovertemplate="%{x}: %{y:.1f}%<extra>" + emp + "</extra>")
     fig.add_hline(y=0, line_color=GOLD)
     fig.update_layout(barmode="group", yaxis_title="Variación publicada (%)")
     fig.update_yaxes(range=[-6, 4])
-    st.plotly_chart(base_layout(fig, 340, "1er semestre 2026 vs. 1er semestre 2025"), width="stretch")
+    st.plotly_chart(base_layout(fig, 380, "1er semestre 2026 vs. 1er semestre 2025"), width="stretch")
     st.markdown(
         """<div class="insight">En euros publicados, el tipo de cambio pesa en ambos (−5% en LVMH, −€360 M en Hermès).
         A moneda constante, LVMH volvió a crecer (+2% en el semestre, +3% en el T2) y Hermès sostiene +6%.</div>""",
@@ -399,22 +482,28 @@ with t3:
 
 # ④ MIX DE NEGOCIO
 with t4:
-    mix_per = st.radio("Mix", ["Año 2025", "1er semestre 2026"], horizontal=True,
-                       label_visibility="collapsed", key="mix")
-    ml, mh = (mix_lvmh, mix_herm) if mix_per == "Año 2025" else (mix_lvmh_h1, mix_herm_h1)
+    mix_per = st.radio("Mix", list(MIX.keys()), horizontal=True, label_visibility="collapsed", key="mix",
+                       index=list(MIX.keys()).index(periodo))
+    vals_lv, vals_he = MIX[mix_per]
     lv_pal = [LV, "#8A5A3B", LV_SOFT, GOLD, "#D6BE94", "#E9DCC4"]
-    he_pal = [HE, NAVY, "#F08C4A", "#4A5A7E", HE_SOFT, GOLD, "#E9DCC4"]
+    he_pal = [HE, NAVY, "#F08C4A", "#4A5A7E", HE_SOFT, GOLD, "#D9CBB0"]
     a, b = st.columns(2)
-    for col, df, pal, name in [(a, ml, lv_pal, "LVMH"), (b, mh, he_pal, "Hermès")]:
+    for col, labels, vals, pal, name in [(a, SEG_LV, vals_lv, lv_pal, "LVMH"),
+                                         (b, SEG_HE, vals_he, he_pal, "Hermès")]:
         with col:
-            fig = go.Figure(go.Pie(labels=df["Segmento"], values=df["Ingresos"], hole=.58,
-                                   marker=dict(colors=pal, line=dict(color=IVORY, width=2)),
-                                   textinfo="percent", sort=False,
-                                   hovertemplate="%{label}<br>€%{value:,.0f} M · %{percent}<extra></extra>"))
-            fig.add_annotation(text=f"<b>{name}</b><br>{fmt_b(df['Ingresos'].sum())}", showarrow=False,
-                               font=dict(family="Cormorant Garamond", size=20, color=COLORS[name]))
-            fig.update_layout(legend=dict(orientation="h", y=-0.15, x=0.5, xanchor="center"))
-            st.plotly_chart(base_layout(fig, 430, f"{name} · ingresos por división"), width="stretch")
+            tot = sum(vals)
+            txt = [fmt_pct(v / tot * 100) if v / tot >= 0.04 else "" for v in vals]
+            fig = go.Figure(go.Pie(
+                labels=labels, values=vals, hole=.6, sort=False, direction="clockwise",
+                marker=dict(colors=pal, line=dict(color=IVORY, width=2)),
+                text=txt, textinfo="text", textposition="inside", insidetextorientation="horizontal",
+                textfont=dict(family=SERIF, size=13),
+                title=dict(text=f"<b>{name}</b><br>{fmt_b(tot)}",
+                           font=dict(family=SERIF, size=17, color=COLORS[name])),
+                hovertemplate="%{label}<br>€%{value:,.0f} M · %{percent}<extra></extra>",
+            ))
+            st.plotly_chart(base_layout(fig, 400, f"{name} · ingresos por división", legend="right"),
+                            width="stretch")
     st.markdown(
         """<div class="insight"><b>Dos modelos opuestos:</b> LVMH es un portafolio de +75 maisons en cinco industrias
         (de Louis Vuitton a Sephora y Moët). Hermès es una sola marca con 16 métiers, donde la marroquinería
@@ -428,27 +517,35 @@ with t5:
     with a:
         fig = go.Figure()
         fig.add_bar(y=geo["Región"], x=geo["LVMH %"], name="LVMH", orientation="h", marker_color=LV,
-                    text=[fmt_pct(v) for v in geo["LVMH %"]], textposition="outside")
+                    text=[fmt_pct(v) for v in geo["LVMH %"]], textposition="outside",
+                    textfont=dict(family=SERIF, size=12),
+                    hovertemplate="%{y}: %{x:.1f}%<extra>LVMH</extra>")
         fig.add_bar(y=geo["Región"], x=geo["Hermès %"], name="Hermès", orientation="h", marker_color=HE,
-                    text=[fmt_pct(v) for v in geo["Hermès %"]], textposition="outside")
-        fig.update_layout(barmode="group", xaxis_title="% de ingresos 2025")
+                    text=[fmt_pct(v) for v in geo["Hermès %"]], textposition="outside",
+                    textfont=dict(family=SERIF, size=12),
+                    hovertemplate="%{y}: %{x:.1f}%<extra>Hermès</extra>")
+        fig.update_layout(barmode="group", xaxis_title="% de ingresos 2025", bargap=0.25)
         fig.update_yaxes(autorange="reversed")
         fig.update_xaxes(range=[0, 50])
-        st.plotly_chart(base_layout(fig, 430, "Peso de cada región en las ventas 2025"), width="stretch")
-        st.caption("*LVMH reporta Estados Unidos; Hermès reporta Américas. Hermès: ventas por destino.")
+        st.plotly_chart(base_layout(fig, 480, "Peso de cada región en las ventas 2025", xtitle=True),
+                        width="stretch")
+        st.caption("*LVMH reporta Estados Unidos; Hermès reporta Américas. Hermès: ventas por destino. "
+                   "Datos regionales completos disponibles solo para el año 2025.")
     with b:
-        modelo = pd.DataFrame({
-            "Dimensión": ["Estructura", "Marcas", "Empleados", "Producción",
-                          "Distribución", "Dividendo 2025", "Posición financiera"],
-            "LVMH": ["Conglomerado multi-industria", "+75 maisons", "+211.000",
-                     "Mixta, global", "Propia + Sephora/DFS", "€13,00 / acción", "Deuda neta €6,9 B"],
-            "Hermès": ["Maison única, familiar", "1 marca · 16 métiers", "26.494",
-                       "55% en talleres propios · 75% hecho en Francia", "Red exclusiva propia",
-                       "€18,00 / acción", "Caja neta €12,8 B"],
-        })
-        st.markdown('<p class="serif" style="font-size:1.3rem;margin:8px 0 4px 0;">Modelo de negocio</p>',
-                    unsafe_allow_html=True)
-        st.dataframe(modelo, hide_index=True, width="stretch", height=290)
+        filas = [
+            ("Estructura", "Conglomerado multi-industria", "Maison única, familiar"),
+            ("Marcas", "+75 maisons", "1 marca · 16 métiers"),
+            ("Empleados", "+211.000", "26.494"),
+            ("Producción", "Mixta, global", "55% en talleres propios · 75% hecho en Francia"),
+            ("Distribución", "Red propia + Sephora / DFS", "Red exclusiva propia"),
+            ("Dividendo 2025", "€13,00 por acción", "€18,00 por acción"),
+            ("Posición financiera", "Deuda neta €6,9 B", "Caja neta €12,8 B"),
+        ]
+        rows = "".join(f"<tr><td>{d}</td><td>{l}</td><td>{h}</td></tr>" for d, l, h in filas)
+        st.markdown('<p class="serif" style="font-size:1.2rem;font-weight:600;margin:8px 0 8px 0;">'
+                    'Modelo de negocio</p>'
+                    f'<table class="mtable"><tr><th></th><th class="lv">LVMH</th><th class="he">Hermès</th></tr>'
+                    f'{rows}</table>', unsafe_allow_html=True)
     st.markdown(
         """<div class="insight">Asia (sin Japón) es el primer mercado de ambos, pero pesa mucho más en Hermès (42%)
         que en LVMH (26%). LVMH tiene mayor exposición a EE.UU. y a Europa, y depende más del consumo aspiracional;
@@ -464,10 +561,11 @@ st.markdown(
 <div class="footer">
 <b>Fuentes oficiales:</b> LVMH — comunicados de resultados anuales 2021–2025 (27/01/2026) y semestrales 2026 (27/07/2026),
 Informe Anual Interactivo 2025 · Hermès International — resultados anuales 2021–2025 (12/02/2026) y semestrales 2026 (29/07/2026).<br>
-Resultado operativo = <i>profit from recurring operations</i> (LVMH) / <i>recurring operating income</i> (Hermès).
-Free cash flow = <i>operating free cash flow</i> (LVMH) / <i>adjusted free cash flow</i> (Hermès).
+<b>B</b> = miles de millones de euros. Resultado operativo = <i>profit from recurring operations</i> (LVMH) /
+<i>recurring operating income</i> (Hermès). Free Cash Flow = <i>operating free cash flow</i> (LVMH) /
+<i>adjusted free cash flow</i> (Hermès). <b>Acumulado</b> = suma del año 2025 y el 1er semestre 2026 (18 meses);
+deuda/caja neta al 30/06/2026; su crecimiento es publicado (las empresas no informan crecimiento orgánico para ese período).
 Beneficio neto 2025 de Hermès incluye la contribución excepcional sobre grandes empresas en Francia (sin ella: €4,86 B).
-Cifras en millones de euros, publicadas salvo indicación de crecimiento orgánico.
 </div>
 """,
     unsafe_allow_html=True,
