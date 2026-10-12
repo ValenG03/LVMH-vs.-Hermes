@@ -1,5 +1,9 @@
 import base64
+import io
 from pathlib import Path
+
+import numpy as np
+from PIL import Image
 
 import streamlit as st
 import pandas as pd
@@ -317,21 +321,40 @@ COLORS = {"LVMH": LV, "Hermès": HE}
 # ─────────────────────────────────────────────
 BASE = Path(__file__).parent
 
-def logo(file, alt):
-    """Logo embebido desde el repo; si falta el archivo, muestra el nombre en texto."""
-    p = BASE / file
-    if p.exists():
-        b64 = base64.b64encode(p.read_bytes()).decode()
+@st.cache_data
+def logo_b64(names):
+    """Busca el logo en el repo, le quita el fondo (blanco o cuadriculado) y lo tiñe en tono tinta."""
+    p = next((BASE / n for n in names if (BASE / n).exists()), None)
+    if p is None:
+        return None
+    im = Image.open(p).convert("RGBA")
+    bg = Image.new("RGBA", im.size, (255, 255, 255, 255))
+    bg.alpha_composite(im)
+    lum = np.asarray(bg.convert("L"), dtype=float)
+    alpha = (np.clip((170 - lum) / 110, 0, 1) * 255).astype(np.uint8)
+    out = np.zeros((*lum.shape, 4), dtype=np.uint8)
+    out[..., 0], out[..., 1], out[..., 2] = 43, 33, 24      # INK
+    out[..., 3] = alpha
+    img = Image.fromarray(out)
+    if img.getbbox():
+        img = img.crop(img.getbbox())
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    return base64.b64encode(buf.getvalue()).decode()
+
+def logo(names, alt):
+    b64 = logo_b64(tuple(names))
+    if b64:
         return f'<img src="data:image/png;base64,{b64}" alt="{alt}">'
     return f'<span class="serif" style="font-size:2.4rem;font-weight:600;color:{INK}">{alt}</span>'
 
 st.markdown(
     f'''<div class="hero">
 <div class="hero-brands">
-<div class="brand-slot lvmh"><div class="logo">{logo("logo_lvmh.png", "LVMH")}</div>
+<div class="brand-slot lvmh"><div class="logo">{logo(["LVMH.png", "lvmh.png", "logo_lvmh.png"], "LVMH")}</div>
 <div class="cap">Grupo · 75+ maisons · Fundado en 1987</div></div>
 <div class="vs-medal">vs.</div>
-<div class="brand-slot hermes"><div class="logo">{logo("logo_hermes.png", "Hermès")}</div>
+<div class="brand-slot hermes"><div class="logo">{logo(["hermes.png", "Hermes.png", "logo_hermes.png"], "Hermès")}</div>
 <div class="cap">Maison · 16 métiers · Fundada en 1837</div></div>
 </div>
 <div class="hero-rule"></div>
